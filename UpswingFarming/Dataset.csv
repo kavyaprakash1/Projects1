@@ -1,0 +1,13 @@
+State ,City,Season,Crop1,Crop2,Crop3
+Georgia,Atlanta,Winter ,Cotton,Soybeans ,Corn
+Georgia,Atlanta,Fall ,Hay,Wheat,Peanuts
+Georgia,Atlanta,Autumn,Cotton,Hay,Rye
+Massachusetts,Boston,Winter ,Barley,Corn ,Potato
+Massachusetts,Boston,Fall ,Corn,Tobacco,Wheat
+Massachusetts,Boston,Autumn,Hey,Oats,Soyabean
+Texas,Dallas,Winter ,Corn,Cotton,Oat
+Texas,Dallas,Fall ,Cotton,Hay Corn,Peanuat
+Texas,Dallas,Autumn,Hay,Corn ,Wheat
+Indiana,Indianapolis,Winter ,Wheat,Hay,Soyabean
+Indiana,Indianapolis,Fall ,Hay,Corn ,Oats
+Indiana,Indianapolis,Autumn,Corn,Wheat,Sugarcane
