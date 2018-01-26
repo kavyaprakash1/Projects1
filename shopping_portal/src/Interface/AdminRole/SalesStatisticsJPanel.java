@@ -1,0 +1,364 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Interface.AdminRole;
+
+import Business.*;
+import Business.Market;
+import Business.Market.MarketType;
+import java.awt.CardLayout;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author incha
+ */
+public class SalesStatisticsJPanel extends javax.swing.JPanel {
+
+    JPanel userProcessContainer;
+    Business business;
+
+    /**
+     * Creates new form SalesStatisticsJPanel
+     */
+    public SalesStatisticsJPanel() {
+        initComponents();
+    }
+
+    SalesStatisticsJPanel(JPanel userProcessContainer, Business business) {
+        initComponents();
+        this.business = business;
+        this.userProcessContainer = userProcessContainer;
+        initMarketComboBox();
+        totalRevenueTxtFld.setText(String.valueOf(totalRevenueForXerox()));
+
+    }
+
+    public void initMarketComboBox() {
+        marketComboBox.removeAllItems();
+
+        for (MarketType mt : Market.MarketType.values()) {
+            marketComboBox.addItem(mt);
+        }
+    }
+
+    public double totalRevenueForXerox() {
+        double totalRevenue = 0;
+        for (Person p : business.getEmployeeDirectory().getPersonList()) {
+            for (Order o : p.getOrderCatalog()) {
+                for (OrderItem oi : o.getOrderItemList()) {
+                    totalRevenue += oi.getSalesPrice();
+
+                }
+            }
+        }
+        return totalRevenue;
+    }
+
+    public double totalMarketRevenue() {
+
+        MarketType mt = (MarketType) marketComboBox.getSelectedItem();
+        double totalRevenue = 0;
+        for (Person p : business.getEmployeeDirectory().getPersonList()) {
+            for (Order o : p.getOrderCatalog()) {
+                for (OrderItem oi : o.getOrderItemList()) {
+                    if (oi.getMarket().equals(mt)) {
+                        totalRevenue += oi.getSalesPrice();
+                    }
+                }
+            }
+        }
+        return totalRevenue;
+
+    }
+
+    public void topThreeProducts() {
+
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> topProducts = new ArrayList<>();
+        
+
+        HashMap<Integer, Integer> productHash = new HashMap<>();
+
+        for (Person p : business.getEmployeeDirectory().getPersonList()) {
+            for (Order o : p.getOrderCatalog()) {
+                for (OrderItem oi : o.getOrderItemList()) {
+                    if (oi.getSalesPrice() > oi.getTargetPrice()) {
+                        products.add(oi.getProduct());
+
+                    }
+
+                }
+            }
+        }
+        System.out.println(products);
+        for (Product p : products) {
+            if (productHash.containsKey(Integer.parseInt(p.toString()))) {
+                productHash.put(Integer.parseInt(p.toString()), productHash.get(Integer.parseInt(p.toString())) + 1);
+            } else {
+                productHash.put(Integer.parseInt(p.toString()), 1);
+            }
+        }
+        System.out.println("**********" + productHash.values());
+        int array[] = new int[10];
+        int j = 0, a, b, temp = 0;
+        for (Integer i : productHash.values()) {
+            array[j] = i;
+            j++;
+        }
+
+        for (a = 0; a < (10 - 1); a++) {
+            for (b = 0; b < 10 - a - 1; b++) {
+                if (array[b] < array[b + 1]) {
+                    temp = array[b];
+                    array[b] = array[b + 1];
+                    array[b + 1] = temp;
+                }
+            }
+        }
+
+        Iterator it = productHash.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            //System.out.println(pair.getKey() + " = " + pair.getValue());
+            int z = Integer.parseInt(pair.getValue().toString());
+            if(z == array[0] || z == array[1] || z == array[2] )
+                topProducts.add(pair.getKey().toString());
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) productTbl.getModel();
+        model.setRowCount(0);
+        
+        
+        for (String top : topProducts) {
+           Object row[] = new Object[2];
+           row[0] = top;
+           for(MarketOffer mo  : business.getMarketOfferCatalog().getMarketOfferList()){
+              if(mo.getProduct().toString().equals(top)){
+                  row[1] = mo.getProduct().getProdName();
+              }
+           }
+           
+           model.addRow(row);
+
+       }
+        
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        totalRevenueTxtFld = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        marketComboBox = new javax.swing.JComboBox();
+        prodSalesRevenueTxtFld = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        productTbl = new javax.swing.JTable();
+        search2Btn = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel1.setText("Sales Statistics");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("1. Revenue totals for Xerox");
+
+        totalRevenueTxtFld.setEnabled(false);
+        totalRevenueTxtFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalRevenueTxtFldActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("2. Product Sales revenue for market");
+
+        marketComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                marketComboBoxActionPerformed(evt);
+            }
+        });
+
+        prodSalesRevenueTxtFld.setEnabled(false);
+        prodSalesRevenueTxtFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prodSalesRevenueTxtFldActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("3. Top 3 products consistently sold above market target price");
+
+        productTbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Product ID", "Product Name"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(productTbl);
+
+        search2Btn.setText("Search");
+        search2Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search2BtnActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("<< Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 327, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(302, 302, 302))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(416, 416, 416)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(marketComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(search2Btn)
+                                .addGap(55, 55, 55)
+                                .addComponent(prodSalesRevenueTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(totalRevenueTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(jButton2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel1)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(totalRevenueTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(marketComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(prodSalesRevenueTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search2Btn))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(200, 200, 200))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void totalRevenueTxtFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalRevenueTxtFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalRevenueTxtFldActionPerformed
+
+    private void prodSalesRevenueTxtFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodSalesRevenueTxtFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prodSalesRevenueTxtFldActionPerformed
+
+    private void marketComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marketComboBoxActionPerformed
+        // TODO add your handling code here:
+        totalMarketRevenue();
+    }//GEN-LAST:event_marketComboBoxActionPerformed
+
+    private void search2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search2BtnActionPerformed
+        // TODO add your handling code here:
+        prodSalesRevenueTxtFld.setText(String.valueOf(totalMarketRevenue()));
+
+    }//GEN-LAST:event_search2BtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+        topThreeProducts();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        userProcessContainer.remove(this);
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.previous(userProcessContainer);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox marketComboBox;
+    private javax.swing.JTextField prodSalesRevenueTxtFld;
+    private javax.swing.JTable productTbl;
+    private javax.swing.JButton search2Btn;
+    private javax.swing.JTextField totalRevenueTxtFld;
+    // End of variables declaration//GEN-END:variables
+}
