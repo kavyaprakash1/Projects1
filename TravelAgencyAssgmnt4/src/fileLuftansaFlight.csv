@@ -1,0 +1,6 @@
+SerialNumber,Date,Departure,Destination,TimeOfDay,Seats
+1,2017-08-10,Boston,Bangalore,Morning,17B:1200:Yes;78H:1200:No;78J:1200:No;55E:1200:No;56E:1200:No
+2,2017-11-15,Dubai,Boston,Morning,18A:1200:No;99W:1200:No;89J:1200:No;12T:1200:No;23W:1200:Yes
+3,2017-12-07,Canada,Delhi,Evening,08G:1200:No;56A:1200:No;97H:1200:Yes;32W:1200:Yes;75J:1200:No
+4,2017-10-08,NewYork,Boston,Morning,55K:1200:Yes;89F:1200:No;55W:1200:No;34Q:1200:No;22R:1200:Yes
+5,2017-09-15,Mumbai,Bangalore,Evening,20S:1200:No;36J:1200:Yes;77H:1200:No;11B:1200:No;67J:1200:No

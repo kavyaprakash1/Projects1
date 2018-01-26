@@ -1,0 +1,6 @@
+SerialNumber,Date,Departure,Destination,TimeOfDay,Seats(last value is Assigned)
+6,2017-09-15,Mumbai,Bangalore,Morning,12A:1200:No;75A:1200:No;75B:1200:No;75C:1200:No;75D:1200:No
+7,2017-10-15,Canada,Delhi,Evening,22B:1200:yes;23A:1200:yes;23G:1200:yes;23J:1200:yes;23K:1200:yes
+8,2017-12-07,Boston,Bangalore,Morning,66C:1200:Yes;25H:1200:Yes;25K:1200:Yes;25L:1200:Yes;25M:1200:Yes
+9,2017-11-12,Mumbai,Boston,Morning,68A:1200:No;42L:1200:Yes;42K:1200:No;42M:1200:No;42I:1200:No
+10,2017-12-06,NewYork,London,Evening,12H:1200:No;12L:1200:No;12W:1200:No;12P:1200:No;12Q:1200:Yes

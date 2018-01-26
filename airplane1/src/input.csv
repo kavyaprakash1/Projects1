@@ -1,0 +1,6 @@
+serialNumber,modelNumber,availableSeats,numberOfSeats,airliner,manufacturer,takeOffTime,airport,maintainanceCertificateDate,yearManufactured
+1,20,0,100,Boeing,ATT,2017-09-21 21:08,Boston,2015-10-20,2015
+2,33,0,200,Malaysian Airlines,manufacturer1,2017-11-13 08:31,California,2017-12-25,2014
+3,45,20,70,Air Asia,manufacturer1,2018-05-15 05:15,Bangalore,2017-10-17,2000
+4,20,100,500,Air Asia,manufacturer3,2018-12-17 08:15,Bangalore,2017-10-17,1993
+5,33,50,350,Malaysian Airlines,manufacturer4,2017-12-13 08:32,California,2010-12-25,2014
